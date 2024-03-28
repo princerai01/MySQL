@@ -1,0 +1,172 @@
+CREATE DATABASE practice_db;
+SHOW DATABASES;
+USE practice_db;
+SHOW TABLES;
+CREATE TABLE STUDENT(
+ID INT PRIMARY KEY,
+NAME VARCHAR(50),
+AGE INT NOT NULL
+);
+INSERT INTO STUDENT VALUES(1,'AKSHAT',18);
+INSERT INTO STUDENT VALUES(2,'CHETAN',18);
+INSERT INTO STUDENT VALUES(3,'PRAKASH',18);
+INSERT INTO STUDENT VALUES(4,'RIYA',18);
+
+SELECT * FROM STUDENT;
+
+INSERT INTO STUDENT(ID,NAME,AGE)VALUES
+(5,'ANJUM',18),
+(6,'MANISH',18),
+(7,'RAJEEV',18),
+(8,'POOJA',18);
+
+SELECT * FROM STUDENT;
+
+CREATE DATABASE XYZ;
+USE XYZ; 
+CREATE TABLE EMPLOYEE_INFO(
+ID INT PRIMARY KEY,
+NAME VARCHAR(50),
+salary INT
+);
+INSERT INTO EMPLOYEE_INFO(ID,NAME,SALARY)VALUES
+(2,'ADAM', 25000),
+(3,'BOB', 30000),
+(4,'RAHUL', 40000);
+
+SELECT * FROM EMPLOYEE_INFO;
+
+SELECT NAME FROM EMPLOYEE_INFO;
+SELECT NAME FROM EMPLOYEE_INFO WHERE ID=3;
+SELECT NAME FROM EMPLOYEE_INFO WHERE SALARY=25000;
+
+CREATE TABLE NEW_TABLE (ID INT, 
+NAME VARCHAR(20),
+CITY VARCHAR(20),
+PRIMARY KEY (ID,NAME)
+);
+SELECT * FROM NEW_TABLE;
+
+CREATE TABLE EMP_DATA (
+ID INT, 
+SALARY INT DEFAULT (25000),
+PRIMARY KEY (ID) 
+);
+INSERT INTO EMP_DATA VALUES(1,18000);
+INSERT INTO EMP_DATA VALUES(2,8000);
+INSERT INTO EMP_DATA VALUES(3,20000);
+INSERT INTO EMP_DATA VALUES(4,10000);
+INSERT INTO EMP_DATA (ID) VALUES(5);
+INSERT INTO EMP_DATA (ID) VALUES(6);
+
+SELECT * FROM EMP_DATA;
+
+CREATE TABLE STUDENT_DATA ( ROLL_NO INT, 
+NAME VARCHAR(20),
+MARKS INT NOT NULL,
+GRADE VARCHAR(1),
+CITY VARCHAR(20),
+PRIMARY KEY(ROLL_NO) 
+);
+
+INSERT INTO STUDENT_DATA (ROLL_NO, NAME, MARKS, GRADE,CITY)
+VALUES(1,'ABHISHEK',78,'C','PUNE'),
+(2,'BHUVAN',90,'A','MUMBAI'),
+(3,'CHIRAG',80,'B','dELHI'),
+(4,'RIYA',95,'A','PUNE'),
+(5,'PRIYA',92,'A','DELHI');
+
+SELECT * FROM STUDENT_DATA;
+SELECT * FROM STUDENT_DATA WHERE MARKS>=95 AND CITY='DELHI';
+SELECT * FROM STUDENT_DATA WHERE MARKS>=95; 
+SELECT * FROM STUDENT_DATA WHERE MARKS>=80 AND CITY='PUNE';
+SELECT * FROM STUDENT_DATA WHERE MARKS BETWEEN 80 AND 90;
+SELECT * FROM STUDENT_DATA WHERE CITY IN ('DELHI','MUMBAI');
+SELECT * FROM STUDENT_DATA WHERE CITY NOT IN ('DELHI','MUMBAI');
+SELECT DISTINCT CITY FROM STUDENT_DATA;
+SELECT * FROM STUDENT_DATA WHERE MARKS>=90 LIMIT 3;
+SELECT * FROM STUDENT_DATA ORDER BY MARKS ASC;
+SELECT * FROM STUDENT_DATA ORDER BY MARKS DESC LIMIT 2;
+SELECT * FROM STUDENT_DATA ORDER BY NAME ASC;
+
+SELECT MAX(MARKS) FROM STUDENT_DATA;
+SELECT AVG(MARKS) FROM STUDENT_DATA; 
+SELECT COUNT(ROLL_NO) FROM STUDENT_DATA;
+SELECT SUM(MARKS) FROM STUDENT_DATA;
+SELECT MIN(MARKS) FROM STUDENT_DATA;
+SELECT NAME, AVG(MARKS) FROM STUDENT_DATA GROUP BY NAME ORDER BY AVG(MARKS) DESC;
+
+select city, count(name) FROM STUDENT_DATA GROUP BY city;
+select grade from STUDENT_DATA GROUP BY grade ORDER BY Grade;
+select city, count(name) FROM STUDENT_DATA GROUP BY city having max(marks)>90; 
+select city FROM STUDENT_DATA where grade='A' GROUP BY city having max(marks)>=90 ORDER BY CITY DESC; 
+
+set SQL_Safe_updates=0;
+UPDATE STUDENT_DATA set marks=66 where name='Riya'; 
+UPDATE STUDENT_DATA set GRADE='D' where ROLL_NO=5; 
+UPDATE STUDENT_DATA set NAME='PRATEEK' where ROLL_NO=2; 
+UPDATE STUDENT_DATA set GRADE='O' where marks between 92 and 100; 
+
+DELETE from STUDENT_DATA where name='RIYA';
+
+SELECT * FROM STUDENT_DATA;
+
+ALTER TABLE STUDENT_DATA add column age int not null default 20; 
+ALTER TABLE STUDENT_DATA change city location varchar(20); 
+ALTER TABLE STUDENT_DATA rename to student_info;  
+
+SELECT * FROM STUDENT_info;
+ALTER TABLE STUDENT_info add column demo int not null; 
+ALTER TABLE STUDENT_info drop column demo;
+INSERT INTO STUDENT_info (ROLL_NO, NAME, MARKS, GRADE,location,age)
+values(7,'Priyanka',82,'B','kolkata',25),
+(6,'Rohit',87,'B','kanpur',28);
+
+SELECT * FROM STUDENT_info;
+ALTER TABLE STUDENT_info change name fullname varchar(20); 
+DELETE from STUDENT_info where marks<80;
+ALTER table STUDENT_info drop column location ;
+
+SELECT * FROM STUDENT_info;
+create table stu (id int,
+name varchar(20));
+insert into stu (id,name)
+values(1,'Aman'),
+(2,'George'),
+(3,'Catherine'),
+(4,'John');
+
+Select * from stu;
+
+Create table course(id int,course_name varchar(20));
+insert into course (id,course_name)
+values(1,'Machine learning'),
+(2,'Computer vision'),
+(3,'Statiscs'),
+(4,'Powerbi');
+
+Select * from course;
+
+select stu.id, course.id from stu inner join course on stu.id=course.id;
+select stu.*, course.id from stu left join course on stu.id=course.id;
+select course.*,stu.id from stu right join course on stu.id=course.id;
+
+insert into course(id,course_name)
+values(5,'Gen_AI'),
+(6,'Prompt');
+
+select * from course;
+select * from student_info;
+
+SELECT AVG(MARKS) FROM STUDENT_info; 
+SELECT FULLNAME FROM STUDENT_info where marks>86.8000; 
+
+SELECT FULLNAME, marks from STUDENT_info where marks>(Select avg(marks) from STUDENT_info); 
+SELECT fullname,roll_no from STUDENT_info where roll_no in (select roll_no from STUDENT_info where roll_no%2=0); 
+
+Create view V1 as select roll_no, fullname,marks from student_info;
+select * from V1;  
+select * from V1 where marks>=90;  
+
+	
+
